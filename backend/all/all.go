@@ -13,6 +13,7 @@ import (
 	_ "github.com/ncw/rclone/backend/dropbox"
 	_ "github.com/ncw/rclone/backend/ftp"
 	_ "github.com/ncw/rclone/backend/googlecloudstorage"
+	_ "github.com/ncw/rclone/backend/googlephotos"
 	_ "github.com/ncw/rclone/backend/http"
 	_ "github.com/ncw/rclone/backend/hubic"
 	_ "github.com/ncw/rclone/backend/jottacloud"
