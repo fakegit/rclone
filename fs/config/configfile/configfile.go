@@ -3,10 +3,10 @@ package configfile
 
 import (
 	"bytes"
-	"context"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/Unknwon/goconfig"
@@ -15,10 +15,9 @@ import (
 	"github.com/rclone/rclone/fs/config"
 )
 
-// LoadConfig installs the config file handler and calls config.LoadConfig
-func LoadConfig(ctx context.Context) {
-	config.Data = &Storage{}
-	config.LoadConfig(ctx)
+// Install installs the config file handler
+func Install() {
+	config.SetData(&Storage{})
 }
 
 // Storage implements config.Storage for saving and loading config
@@ -226,6 +225,10 @@ func (s *Storage) GetValue(section string, key string) (value string, found bool
 // SetValue sets the value under key in section
 func (s *Storage) SetValue(section string, key string, value string) {
 	s.check()
+	if strings.HasPrefix(section, ":") {
+		fs.Logf(nil, "Can't save config %q for on the fly backend %q", key, section)
+		return
+	}
 	s.gc.SetValue(section, key, value)
 }
 
